@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\TodoList;
+use App\Http\Resources\TodoListResource;
 
 class TodoListController extends Controller
 {
     public function index()
     {
-        return TodoList::all(); // get all to do lists
+        return response()->json(TodoListResource::collection(TodoList::all()), Response::HTTP_OK); // get all to do lists
     }
 
     public function store(Request $request)
@@ -19,13 +21,14 @@ class TodoListController extends Controller
         ]);
 
         $todoList = TodoList::create($request->all()); // create new to do list
-        return response()->json($todoList, 201);
+        return response()->json(new TodoListResource($todoList), Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
-        $todoList = TodoList::findOrFail($id); // find to do list by id
-        return response()->json($todoList);
+        // $todoList = TodoList::findOrFail($id); // find to do list by id
+        $todoList = TodoList::with('todos')->findOrFail($id);
+        return response()->json(new TodoListResource($todoList), Response::HTTP_OK);
     }
 
     public function update(Request $request, $id)
@@ -37,7 +40,7 @@ class TodoListController extends Controller
         $todoList->update([
             'name' => $request->input('name'),
         ]); // update to do list
-        return response()->json($todoList);
+        return response()->json(new TodoListResource($todoList), Response::HTTP_OK);
     }
 
     public function destroy($id)

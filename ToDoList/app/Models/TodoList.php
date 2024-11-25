@@ -10,4 +10,9 @@ class TodoList extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
 }

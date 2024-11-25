@@ -10,4 +10,9 @@ class Todo extends Model
     use HasFactory;
 
     protected $fillable = ['todo_list_id', 'task', 'completed'];
+
+    public function todoList()
+    {
+        return $this->belongsTo(TodoList::class);
+    }
 }

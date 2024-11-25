@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Todo;
+use App\Http\Resources\TodoResource;
 
 class TodoController extends Controller
 {
     public function index()
     {
-        return Todo::all(); // get all to dos
+        return response()->json(TodoResource::collection(Todo::all()), Response::HTTP_OK) ; // get all to dos
     }
 
     public function store(Request $request)
@@ -21,20 +23,20 @@ class TodoController extends Controller
         ]);
 
         $todo = Todo::create($request->all()); // create new to do
-        return response()->json($todo, 201);
+        return response()->json(new TodoResource($todo), Response::HTTP_CREATED);
     }
 
     public function show($id)
     {
         $todo = Todo::findOrFail($id); // find to do by id
-        return response()->json($todo);
+        return response()->json(new TodoResource($todo), Response::HTTP_OK);
     }
 
     public function update(Request $request, $id)
     {
         $todo = Todo::findOrFail($id);
         $todo->update($request->all()); // update to do
-        return response()->json($todo);
+        return response()->json(new TodoResource($todo), Response::HTTP_OK);
     }
 
     public function destroy($id)
