@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('todos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('todo_list_id')->constrained(); // foreign key
+            $table->foreignId('todo_list_id')
+                  ->constrained('todo_lists')
+                  ->onDelete('cascade'); // Add cascading delete
             $table->string('task');
             $table->boolean('completed')->default(false);
             $table->timestamps();
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('to_dos');
+        Schema::dropIfExists('todos');
     }
 };
