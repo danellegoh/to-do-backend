@@ -30,8 +30,13 @@ class TodoListController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
         $todoList = TodoList::findOrFail($id);
-        $todoList->update($request->all()); // update to do list
+        $todoList->update([
+            'name' => $request->input('name'),
+        ]); // update to do list
         return response()->json($todoList);
     }
 
