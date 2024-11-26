@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('todo_list_id')
                   ->constrained('todo_lists')
                   ->onDelete('cascade'); // Add cascading delete
-            $table->string('task');
-            $table->boolean('completed')->default(false);
+            $table->string('description');
+            $table->boolean('is_done')->default(false);
             $table->timestamps();
         });
     }

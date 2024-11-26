@@ -11,8 +11,8 @@ class TodoResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'description' => $this->task,  // for column name "task"
-            'is_done' => $this->completed, // for column name "completed"
+            'description' => $this->description,
+            'is_done' => $this->is_done,
             'todo_list_id' => $this->todo_list_id,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),

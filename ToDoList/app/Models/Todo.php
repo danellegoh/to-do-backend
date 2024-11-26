@@ -9,7 +9,17 @@ class Todo extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['todo_list_id', 'task', 'completed'];
+    protected $fillable = [
+        'todo_list_id',
+        'description',
+        'is_done'
+    ];
+
+    protected $casts = [
+        'is_done' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     public function todoList()
     {
